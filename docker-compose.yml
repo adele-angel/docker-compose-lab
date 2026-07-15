@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  app:
+    build: ./app
+    container_name: app-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - appnet
+
+  db:
+    image: postgres:latest
+    container_name: postgres-service
+    environment:
+      POSTGRES_USER: adele
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: testdb
+    volumes:
+      - pgdata:/var/lib/postgresql
+    ports:
+      - "5433:5432"
+    networks:
+      - appnet
+
+networks:
+  appnet:
+
+volumes:
+  pgdata:
